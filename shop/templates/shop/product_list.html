@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>All products</h1>
     {% for product in products %}
@@ -14,15 +16,18 @@
     <p>Quantity: {{ product.quantity }}</p>
     <p>Category: {{ product.category }}</p>
     {% if product.image %}
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100">
     {% endif %}
     <a href="{% url 'product_update' product.pk %}">Edit</a>
     <a href="{% url 'product_delete' product.pk %}">Delete</a>
+    <a href="{% url 'product_create' %}" class="btn btn-success">Add Product</a>
+
     {% empty %}
     <p>No products available</p>
-{% endfor %}
+    {% endfor %}
 
 
 
 </body>
+
 </html>

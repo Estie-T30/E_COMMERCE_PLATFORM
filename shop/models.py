@@ -12,16 +12,16 @@ def validate_image_size(value):
 
 class Product(models.Model):
     name = models.CharField(max_length=250)
-    description = models.TextField() # Optional field
+    description = models.TextField(blank=True, null=True) # Optional field
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
     category = models.CharField(max_length=100)
     image = models.ImageField(default="Product.jpg", upload_to="product_images/", validators = [validate_image_size], blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name_plural = 'Product'
+        verbose_name_plural = 'Products'
 
     def __str__(self):
         return self.name
