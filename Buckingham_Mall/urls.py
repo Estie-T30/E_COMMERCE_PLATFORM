@@ -18,10 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from shop.views import product_list, product_create, product_update, product_delete, retrieve_product
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('shop/', include('shop.urls')),  # Include shop app URLs
+    path('list/', product_list, name='product-list'),
+    path('create/', product_create, name='product-create'),
+    path('update/<int:pk>/', product_update, name='product-update'),
+    path('delete/<int:pk>/', product_delete, name='product-delete'),
+    path('retrieve/<int:pk>/', retrieve_product, name='product-detail')
 ]
 
 

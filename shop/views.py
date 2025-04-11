@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
 from .models import Product
 from .forms import ProductForm
 
@@ -10,15 +11,15 @@ def product_list(request):
 
 # Create a new product
 def product_create(request):
-    if request.method == 'POST':   # Redirect to product list after saving
+    if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('product_list') # Redirect to product list
-    else:  # Show empty form on GET request
-        form = ProductForm()
+            return redirect(reverse('product-list'))
+        else:
+            print(form.errors)
     return render(request, 'shop/product_form.html', {'form': form})
-
+    
 # Update an existing product
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -26,7 +27,7 @@ def product_update(request, pk):
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('product_list')
+            return redirect('product-list')
     else:
         form = ProductForm(instance=product)
     return render(request, 'shop/product_form.html', {'form': form})
@@ -36,6 +37,10 @@ def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
         product.delete()
-        return redirect('product_list')
+        return redirect(reverse('product-list'))
     return render(request, 'shop/product_confirm_delete.html', {'product': product})
+
+def retrieve_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'shop/product_detail.html', {'product': product})
 
